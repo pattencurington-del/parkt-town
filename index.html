@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ParkT-Town | Tuscaloosa Parking Made Easy</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 <style>
 :root{--crimson:#9e1029;--crimson-dark:#760b20;--green:#168b45;--red:#bd2638;--ink:#20232a;--muted:#68717d;--line:#e5e7eb;--bg:#f5f6f8;--card:#fff}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Inter,Arial,sans-serif;color:var(--ink)}
@@ -11,8 +12,8 @@ header{background:linear-gradient(110deg,var(--crimson-dark),var(--crimson));col
 .brand{display:flex;align-items:center;gap:13px}.logo{font-family:Georgia,serif;font-size:38px;font-weight:bold;border-right:1px solid #ffffff70;padding-right:13px}.brand h1{font-size:22px;margin:0}.brand p{margin:3px 0 0;font-size:12px;color:#f4dce2}.demo{font-size:11px;border:1px solid #ffffff80;border-radius:20px;padding:6px 10px;letter-spacing:.08em}
 main{max-width:1120px;margin:24px auto;padding:0 18px 100px}.intro{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:18px}.intro h2{margin:0 0 5px;font-size:25px}.intro p{margin:0;color:var(--muted);font-size:14px}.sample{font-size:11px;color:#8b5b00;background:#fff4d8;border-radius:20px;padding:7px 10px;white-space:nowrap}
 nav{display:flex;gap:7px;background:#e9ebef;padding:5px;border-radius:13px;margin-bottom:18px;overflow:auto}nav button{border:0;background:transparent;color:#555e69;padding:11px 17px;border-radius:10px;font-weight:650;cursor:pointer;white-space:nowrap}nav button.active{background:white;color:var(--crimson);box-shadow:0 1px 4px #00000012}
-.panel{display:none}.panel.active{display:block}.layout{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(270px,.8fr);gap:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 3px 12px #17203308}.card h3{margin:0 0 14px;font-size:17px}.toolbar{display:flex;gap:10px;margin-bottom:14px}.toolbar input,.toolbar select,select,input{font:inherit}.toolbar input{flex:1;min-width:0}.field{width:100%;border:1px solid var(--line);border-radius:10px;padding:11px 12px;background:white;color:var(--ink)}.map{background:#e9eee7;border-radius:13px;padding:15px;min-height:425px;position:relative;overflow:hidden}.road{background:#c8d0d5;color:#49525a;text-align:center;font-size:11px;font-weight:700;letter-spacing:.08em;padding:9px;margin:8px -15px}.lot{background:#d6dfd2;border:1px solid #b7c5b2;border-radius:10px;padding:13px;margin:12px 0}.lot-title{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:800;color:#455348;margin-bottom:10px}.spaces{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.space{border:2px solid transparent;border-radius:8px;min-height:62px;color:white;font-weight:700;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;transition:.15s}.space.open{background:var(--green)}.space.taken{background:var(--red)}.space.selected{border-color:#172033;outline:3px solid #fff;transform:translateY(-2px)}.space small{font-size:10px;font-weight:500}.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:#4e5962;margin-top:12px}.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}.statrow{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}.stat{background:#f7f8fa;border-radius:11px;padding:12px}.stat strong{font-size:23px;display:block}.stat span{font-size:11px;color:var(--muted)}.selected-info{background:#fafafa;border:1px solid var(--line);padding:13px;border-radius:12px;margin-bottom:12px}.status{font-weight:700;font-size:13px}.status.open{color:var(--green)}.status.taken{color:var(--red)}.muted{color:var(--muted);font-size:12px;line-height:1.5}.btn{background:var(--crimson);color:white;border:0;border-radius:10px;padding:12px 15px;font-weight:700;cursor:pointer}.btn:hover{background:var(--crimson-dark)}.btn:disabled{opacity:.45;cursor:not-allowed}.btn.secondary{background:#f1f2f4;color:#343b45}.btn.full{width:100%}.radio-row{display:flex;gap:7px;flex-wrap:wrap;margin:9px 0 13px}.choice{border:1px solid var(--line);border-radius:9px;padding:9px 11px;font-size:12px;cursor:pointer;background:white}.choice.chosen{border-color:var(--crimson);background:#fff0f3;color:var(--crimson);font-weight:700}.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}.section-head h3{margin:0}.chart{height:220px;display:flex;align-items:end;gap:9px;padding:15px 5px 25px;border-bottom:1px solid var(--line);background:repeating-linear-gradient(to bottom,transparent 0,transparent 49px,#edf0f3 50px)}.bar-wrap{flex:1;height:100%;display:flex;align-items:end;position:relative}.bar{width:100%;border-radius:6px 6px 0 0;background:linear-gradient(#c83b52,var(--crimson));min-height:5px}.bar-label{position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--muted)}.peak{background:#fff0f2;border-radius:12px;padding:14px;margin-top:18px;color:var(--crimson)}.peak strong{display:block;font-size:20px;margin-top:4px}.insights{display:grid;gap:10px;margin-top:15px}.insight{display:flex;gap:9px;font-size:13px;line-height:1.4}.check{color:var(--green);font-weight:900}.empty{text-align:center;padding:40px 15px;color:var(--muted)}.empty b{display:block;color:var(--ink);margin:10px}.notice{background:#fff7e7;border:1px solid #f2dfb5;color:#74551c;border-radius:10px;padding:12px;font-size:12px;line-height:1.5;margin-top:15px}.footer{text-align:center;color:#9299a3;font-size:11px;margin:25px 0 0}
-@media(max-width:760px){header{padding:14px 17px}.brand h1{font-size:18px}.logo{font-size:32px}main{margin:18px auto}.intro{align-items:start;flex-direction:column}.layout{grid-template-columns:1fr}.map{min-height:390px}.card{padding:14px}.toolbar{flex-direction:column}.spaces{gap:7px}.space{min-height:56px}}
+.panel{display:none}.panel.active{display:block}.layout{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(270px,.8fr);gap:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 3px 12px #17203308}.card h3{margin:0 0 14px;font-size:17px}.toolbar{display:flex;gap:10px;margin-bottom:14px}.toolbar input,.toolbar select,select,input{font:inherit}.toolbar input{flex:1;min-width:0}.field{width:100%;border:1px solid var(--line);border-radius:10px;padding:11px 12px;background:white;color:var(--ink)}.map-shell{height:490px;border-radius:13px;overflow:hidden;border:1px solid #d9e0e4;position:relative;background:#e9eee7}#cityMap{height:100%;width:100%}.map-legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:#4e5962;margin-top:12px}.map-pin{width:25px;height:25px;border:3px solid white;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 2px 7px #0005;display:flex;align-items:center;justify-content:center;color:white;font-size:10px;font-weight:800}.map-pin span{transform:rotate(45deg)}.map-pin.open{background:#168b45}.map-pin.taken{background:#bd2638}.map-pin.selected{outline:3px solid #20232a;outline-offset:2px}.leaflet-control-attribution{font-size:9px!important}.road{background:#c8d0d5;color:#49525a;text-align:center;font-size:11px;font-weight:700;letter-spacing:.08em;padding:9px;margin:8px -15px}.lot{background:#d6dfd2;border:1px solid #b7c5b2;border-radius:10px;padding:13px;margin:12px 0}.lot-title{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:800;color:#455348;margin-bottom:10px}.spaces{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.space{border:2px solid transparent;border-radius:8px;min-height:62px;color:white;font-weight:700;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;transition:.15s}.space.open{background:var(--green)}.space.taken{background:var(--red)}.space.selected{border-color:#172033;outline:3px solid #fff;transform:translateY(-2px)}.space small{font-size:10px;font-weight:500}.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:#4e5962;margin-top:12px}.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}.statrow{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}.stat{background:#f7f8fa;border-radius:11px;padding:12px}.stat strong{font-size:23px;display:block}.stat span{font-size:11px;color:var(--muted)}.selected-info{background:#fafafa;border:1px solid var(--line);padding:13px;border-radius:12px;margin-bottom:12px}.status{font-weight:700;font-size:13px}.status.open{color:var(--green)}.status.taken{color:var(--red)}.muted{color:var(--muted);font-size:12px;line-height:1.5}.btn{background:var(--crimson);color:white;border:0;border-radius:10px;padding:12px 15px;font-weight:700;cursor:pointer}.btn:hover{background:var(--crimson-dark)}.btn:disabled{opacity:.45;cursor:not-allowed}.btn.secondary{background:#f1f2f4;color:#343b45}.btn.full{width:100%}.radio-row{display:flex;gap:7px;flex-wrap:wrap;margin:9px 0 13px}.choice{border:1px solid var(--line);border-radius:9px;padding:9px 11px;font-size:12px;cursor:pointer;background:white}.choice.chosen{border-color:var(--crimson);background:#fff0f3;color:var(--crimson);font-weight:700}.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}.section-head h3{margin:0}.chart{height:220px;display:flex;align-items:end;gap:9px;padding:15px 5px 25px;border-bottom:1px solid var(--line);background:repeating-linear-gradient(to bottom,transparent 0,transparent 49px,#edf0f3 50px)}.bar-wrap{flex:1;height:100%;display:flex;align-items:end;position:relative}.bar{width:100%;border-radius:6px 6px 0 0;background:linear-gradient(#c83b52,var(--crimson));min-height:5px}.bar-label{position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--muted)}.peak{background:#fff0f2;border-radius:12px;padding:14px;margin-top:18px;color:var(--crimson)}.peak strong{display:block;font-size:20px;margin-top:4px}.insights{display:grid;gap:10px;margin-top:15px}.insight{display:flex;gap:9px;font-size:13px;line-height:1.4}.check{color:var(--green);font-weight:900}.empty{text-align:center;padding:40px 15px;color:var(--muted)}.empty b{display:block;color:var(--ink);margin:10px}.notice{background:#fff7e7;border:1px solid #f2dfb5;color:#74551c;border-radius:10px;padding:12px;font-size:12px;line-height:1.5;margin-top:15px}.footer{text-align:center;color:#9299a3;font-size:11px;margin:25px 0 0}
+@media(max-width:760px){header{padding:14px 17px}.brand h1{font-size:18px}.logo{font-size:32px}main{margin:18px auto}.intro{align-items:start;flex-direction:column}.layout{grid-template-columns:1fr}.map-shell{height:390px}.card{padding:14px}.toolbar{flex-direction:column}.spaces{gap:7px}.space{min-height:56px}}
 </style>
 </head>
 <body>
@@ -33,14 +34,10 @@ nav{display:flex;gap:7px;background:#e9ebef;padding:5px;border-radius:13px;margi
    <div class="card">
     <div class="section-head"><h3>Downtown parking map</h3><span class="muted">Illustrative layout</span></div>
     <div class="toolbar"><input class="field" id="search" placeholder="Search a space ID (e.g. A3)"><select class="field" id="filter" style="max-width:170px"><option value="all">All spaces</option><option value="open">Available only</option><option value="taken">Occupied only</option></select></div>
-    <div class="map">
-     <div class="road">UNIVERSITY BOULEVARD</div>
-     <div class="lot"><div class="lot-title"><span>NORTH PARKING LOT</span><span>LOT A</span></div><div class="spaces" id="lotA"></div></div>
-     <div class="road">15TH STREET</div>
-     <div class="lot"><div class="lot-title"><span>SOUTH PARKING LOT</span><span>LOT B</span></div><div class="spaces" id="lotB"></div></div>
-     <div class="road">PAUL W. BRYANT DRIVE</div>
-     <div class="legend"><span><i class="dot" style="background:#168b45"></i>Available</span><span><i class="dot" style="background:#bd2638"></i>Occupied</span><span>Click a space for details</span></div>
-    </div>
+    <div class="map-shell"><div id="cityMap" role="application" aria-label="Interactive map of downtown Tuscaloosa parking demonstration"></div></div>
+    <div class="map-legend"><span><i class="dot" style="background:#168b45"></i>Available</span><span><i class="dot" style="background:#bd2638"></i>Occupied</span><span>Tap a marker to view a demo space</span></div>
+    <p class="muted" style="margin:10px 0 0">Street map © OpenStreetMap contributors. Colored pins are approximate demonstration locations, not verified parking spaces.</p>
+    <div id="lotA" hidden></div><div id="lotB" hidden></div>
    </div>
    <aside class="card">
     <div class="statrow"><div class="stat"><strong id="openCount">9</strong><span>Available spaces</span></div><div class="stat"><strong id="totalCount">24</strong><span>Total spaces shown</span></div></div>
@@ -71,12 +68,39 @@ nav{display:flex;gap:7px;background:#e9ebef;padding:5px;border-radius:13px;margi
  </section>
  <div class="footer">ParkT-Town · Student concept prototype · Tuscaloosa, Alabama</div>
 </main>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
 const spaces=[
  ...["A1","A2","A3","A4","A5","A6","A7","A8","A9","A10","A11","A12"].map((id,i)=>({id,lot:"North Parking Lot",open:[0,2,3,5,7,8,10][i]??false})),
  ...["B1","B2","B3","B4","B5","B6","B7","B8","B9","B10","B11","B12"].map((id,i)=>({id,lot:"South Parking Lot",open:[0,1,4,5,6,8,11][i]??false}))
 ];
-let selected="A3",duration="1–2 hours",saved=null;
+const mapCoords=[
+[33.2117,-87.5704],[33.2115,-87.5689],[33.2112,-87.5674],[33.2108,-87.5710],
+[33.2106,-87.5695],[33.2103,-87.5679],[33.2100,-87.5713],[33.2098,-87.5698],
+[33.2095,-87.5682],[33.2092,-87.5708],[33.2089,-87.5692],[33.2086,-87.5677],
+[33.2083,-87.5720],[33.2080,-87.5705],[33.2077,-87.5689],[33.2074,-87.5673],
+[33.2125,-87.5720],[33.2122,-87.5705],[33.2119,-87.5689],[33.2116,-87.5673],
+[33.2070,-87.5717],[33.2067,-87.5701],[33.2064,-87.5685],[33.2061,-87.5669]
+];
+spaces.forEach((s,i)=>{s.lat=mapCoords[i][0];s.lng=mapCoords[i][1]});
+let selected="A3",duration="1–2 hours",saved=null,cityMap=null;
+const mapMarkers={};
+function pinIcon(s){
+ const cls="map-pin "+(s.open?"open":"taken")+(s.id===selected?" selected":"");
+ return L.divIcon({className:"",html:`<div class="${cls}"><span>${s.id.slice(1)}</span></div>`,iconSize:[25,25],iconAnchor:[12,24]});
+}
+function initCityMap(){
+ cityMap=L.map("cityMap").setView([33.2095,-87.5695],15);
+ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
+  maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors'
+ }).addTo(cityMap);
+ spaces.forEach(s=>{
+  const marker=L.marker([s.lat,s.lng],{icon:pinIcon(s)}).addTo(cityMap).bindTooltip(s.id+" · "+(s.open?"Available":"Occupied"));
+  marker.on("click",()=>{selected=s.id;renderSpaces();renderSelected()});
+  mapMarkers[s.id]=marker;
+ });
+ setTimeout(()=>cityMap.invalidateSize(),100);
+}
 const $=id=>document.getElementById(id);
 function renderSpaces(){
  const filter=$("filter").value,query=$("search").value.trim().toUpperCase();
@@ -89,6 +113,14 @@ function renderSpaces(){
  });
  $("openCount").textContent=spaces.filter(s=>s.open).length;
  $("totalCount").textContent=spaces.length;
+ if(cityMap){
+  spaces.forEach(s=>{
+   const marker=mapMarkers[s.id],matches=(filter==="all"||(filter==="open"&&s.open)||(filter==="taken"&&!s.open))&&(!query||s.id.includes(query));
+   marker.setIcon(pinIcon(s));
+   if(matches&&!cityMap.hasLayer(marker))marker.addTo(cityMap);
+   if(!matches&&cityMap.hasLayer(marker))cityMap.removeLayer(marker);
+  });
+ }
 }
 function renderSelected(){
  const s=spaces.find(x=>x.id===selected);
@@ -111,7 +143,7 @@ $("filter").onchange=renderSpaces;$("search").oninput=renderSpaces;
 $("durationChoices").querySelectorAll("button").forEach(b=>b.onclick=()=>{duration=b.dataset.duration;$("durationChoices").querySelectorAll("button").forEach(x=>x.classList.toggle("chosen",x===b));});
 $("saveSpot").onclick=()=>{saved=selected;renderSaved();renderSelected();};
 $("trendPeriod").onchange=()=>{const label=$("trendPeriod").value;$("chart").style.opacity=label==="Today"?"1":".72";};
-renderSpaces();renderSelected();renderChart();renderSaved();
+initCityMap();renderSpaces();renderSelected();renderChart();renderSaved();
 </script>
 </body>
 </html>
