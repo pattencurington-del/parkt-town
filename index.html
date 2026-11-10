@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ParkT-Town | Tuscaloosa Parking Made Easy</title>
+<style>
+:root{--crimson:#9e1029;--crimson-dark:#760b20;--green:#168b45;--red:#bd2638;--ink:#20232a;--muted:#68717d;--line:#e5e7eb;--bg:#f5f6f8;--card:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Inter,Arial,sans-serif;color:var(--ink)}
+header{background:linear-gradient(110deg,var(--crimson-dark),var(--crimson));color:white;padding:18px max(20px,calc((100% - 1120px)/2));display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:13px}.logo{font-family:Georgia,serif;font-size:38px;font-weight:bold;border-right:1px solid #ffffff70;padding-right:13px}.brand h1{font-size:22px;margin:0}.brand p{margin:3px 0 0;font-size:12px;color:#f4dce2}.demo{font-size:11px;border:1px solid #ffffff80;border-radius:20px;padding:6px 10px;letter-spacing:.08em}
+main{max-width:1120px;margin:24px auto;padding:0 18px 100px}.intro{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:18px}.intro h2{margin:0 0 5px;font-size:25px}.intro p{margin:0;color:var(--muted);font-size:14px}.sample{font-size:11px;color:#8b5b00;background:#fff4d8;border-radius:20px;padding:7px 10px;white-space:nowrap}
+nav{display:flex;gap:7px;background:#e9ebef;padding:5px;border-radius:13px;margin-bottom:18px;overflow:auto}nav button{border:0;background:transparent;color:#555e69;padding:11px 17px;border-radius:10px;font-weight:650;cursor:pointer;white-space:nowrap}nav button.active{background:white;color:var(--crimson);box-shadow:0 1px 4px #00000012}
+.panel{display:none}.panel.active{display:block}.layout{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(270px,.8fr);gap:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 3px 12px #17203308}.card h3{margin:0 0 14px;font-size:17px}.toolbar{display:flex;gap:10px;margin-bottom:14px}.toolbar input,.toolbar select,select,input{font:inherit}.toolbar input{flex:1;min-width:0}.field{width:100%;border:1px solid var(--line);border-radius:10px;padding:11px 12px;background:white;color:var(--ink)}.map{background:#e9eee7;border-radius:13px;padding:15px;min-height:425px;position:relative;overflow:hidden}.road{background:#c8d0d5;color:#49525a;text-align:center;font-size:11px;font-weight:700;letter-spacing:.08em;padding:9px;margin:8px -15px}.lot{background:#d6dfd2;border:1px solid #b7c5b2;border-radius:10px;padding:13px;margin:12px 0}.lot-title{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:800;color:#455348;margin-bottom:10px}.spaces{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.space{border:2px solid transparent;border-radius:8px;min-height:62px;color:white;font-weight:700;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;transition:.15s}.space.open{background:var(--green)}.space.taken{background:var(--red)}.space.selected{border-color:#172033;outline:3px solid #fff;transform:translateY(-2px)}.space small{font-size:10px;font-weight:500}.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:#4e5962;margin-top:12px}.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}.statrow{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}.stat{background:#f7f8fa;border-radius:11px;padding:12px}.stat strong{font-size:23px;display:block}.stat span{font-size:11px;color:var(--muted)}.selected-info{background:#fafafa;border:1px solid var(--line);padding:13px;border-radius:12px;margin-bottom:12px}.status{font-weight:700;font-size:13px}.status.open{color:var(--green)}.status.taken{color:var(--red)}.muted{color:var(--muted);font-size:12px;line-height:1.5}.btn{background:var(--crimson);color:white;border:0;border-radius:10px;padding:12px 15px;font-weight:700;cursor:pointer}.btn:hover{background:var(--crimson-dark)}.btn:disabled{opacity:.45;cursor:not-allowed}.btn.secondary{background:#f1f2f4;color:#343b45}.btn.full{width:100%}.radio-row{display:flex;gap:7px;flex-wrap:wrap;margin:9px 0 13px}.choice{border:1px solid var(--line);border-radius:9px;padding:9px 11px;font-size:12px;cursor:pointer;background:white}.choice.chosen{border-color:var(--crimson);background:#fff0f3;color:var(--crimson);font-weight:700}.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}.section-head h3{margin:0}.chart{height:220px;display:flex;align-items:end;gap:9px;padding:15px 5px 25px;border-bottom:1px solid var(--line);background:repeating-linear-gradient(to bottom,transparent 0,transparent 49px,#edf0f3 50px)}.bar-wrap{flex:1;height:100%;display:flex;align-items:end;position:relative}.bar{width:100%;border-radius:6px 6px 0 0;background:linear-gradient(#c83b52,var(--crimson));min-height:5px}.bar-label{position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--muted)}.peak{background:#fff0f2;border-radius:12px;padding:14px;margin-top:18px;color:var(--crimson)}.peak strong{display:block;font-size:20px;margin-top:4px}.insights{display:grid;gap:10px;margin-top:15px}.insight{display:flex;gap:9px;font-size:13px;line-height:1.4}.check{color:var(--green);font-weight:900}.empty{text-align:center;padding:40px 15px;color:var(--muted)}.empty b{display:block;color:var(--ink);margin:10px}.notice{background:#fff7e7;border:1px solid #f2dfb5;color:#74551c;border-radius:10px;padding:12px;font-size:12px;line-height:1.5;margin-top:15px}.footer{text-align:center;color:#9299a3;font-size:11px;margin:25px 0 0}
+@media(max-width:760px){header{padding:14px 17px}.brand h1{font-size:18px}.logo{font-size:32px}main{margin:18px auto}.intro{align-items:start;flex-direction:column}.layout{grid-template-columns:1fr}.map{min-height:390px}.card{padding:14px}.toolbar{flex-direction:column}.spaces{gap:7px}.space{min-height:56px}}
+</style>
+</head>
+<body>
+<header>
+ <div class="brand"><div class="logo">A</div><div><h1>ParkT-Town</h1><p>Tuscaloosa Parking Made Easy</p></div></div>
+ <div class="demo">CLASS DEMO</div>
+</header>
+<main>
+ <div class="intro"><div><h2>Find your spot downtown.</h2><p>Spend less time circling and more time enjoying Tuscaloosa.</p></div><div class="sample">● Demonstration data — not live parking</div></div>
+ <nav aria-label="Main navigation">
+  <button class="active" data-tab="map">⌖ &nbsp;Parking Map</button>
+  <button data-tab="trends">▥ &nbsp;Parking Trends</button>
+  <button data-tab="myparking">◷ &nbsp;My Parking</button>
+  <button data-tab="about">ⓘ &nbsp;About</button>
+ </nav>
+ <section class="panel active" id="map">
+  <div class="layout">
+   <div class="card">
+    <div class="section-head"><h3>Downtown parking map</h3><span class="muted">Illustrative layout</span></div>
+    <div class="toolbar"><input class="field" id="search" placeholder="Search a space ID (e.g. A3)"><select class="field" id="filter" style="max-width:170px"><option value="all">All spaces</option><option value="open">Available only</option><option value="taken">Occupied only</option></select></div>
+    <div class="map">
+     <div class="road">UNIVERSITY BOULEVARD</div>
+     <div class="lot"><div class="lot-title"><span>NORTH PARKING LOT</span><span>LOT A</span></div><div class="spaces" id="lotA"></div></div>
+     <div class="road">15TH STREET</div>
+     <div class="lot"><div class="lot-title"><span>SOUTH PARKING LOT</span><span>LOT B</span></div><div class="spaces" id="lotB"></div></div>
+     <div class="road">PAUL W. BRYANT DRIVE</div>
+     <div class="legend"><span><i class="dot" style="background:#168b45"></i>Available</span><span><i class="dot" style="background:#bd2638"></i>Occupied</span><span>Click a space for details</span></div>
+    </div>
+   </div>
+   <aside class="card">
+    <div class="statrow"><div class="stat"><strong id="openCount">9</strong><span>Available spaces</span></div><div class="stat"><strong id="totalCount">24</strong><span>Total spaces shown</span></div></div>
+    <h3>Selected parking space</h3>
+    <div class="selected-info" id="selectedInfo"><div class="status open">● A3 — Available now</div><p class="muted">North Parking Lot · Sample space</p></div>
+    <label class="muted" for="duration">How long do you plan to park?</label>
+    <div class="radio-row" id="durationChoices"><button class="choice" data-duration="Under 30 min">Under 30 min</button><button class="choice chosen" data-duration="1–2 hours">1–2 hours</button><button class="choice" data-duration="2+ hours">2+ hours</button></div>
+    <p class="muted" id="estimate">This space is currently available. Estimated availability is subject to change.</p>
+    <button class="btn full" id="saveSpot">Save this parking spot</button>
+    <div class="notice">Prototype note: space availability is simulated. A production version would connect permitted parking cameras to a detection system and live database.</div>
+   </aside>
+  </div>
+ </section>
+ <section class="panel" id="trends">
+  <div class="card">
+   <div class="section-head"><h3>Parking demand trends</h3><select class="field" id="trendPeriod" style="max-width:150px"><option>Today</option><option>This week</option><option>This month</option></select></div>
+   <p class="muted">Illustrative occupancy estimates by time of day. Real forecasts would be based on collected parking history.</p>
+   <div class="chart" id="chart"></div>
+   <div class="peak">Expected busiest period<strong>11:00 AM – 3:00 PM</strong><span class="muted">Sample trend — not a live forecast.</span></div>
+   <div class="insights"><div class="insight"><span class="check">✓</span><span>Parking demand may rise around lunch and evening events.</span></div><div class="insight"><span class="check">✓</span><span>Football weekends and downtown events could create higher demand.</span></div><div class="insight"><span class="check">✓</span><span>Historical data could help the city plan future parking facilities.</span></div></div>
+  </div>
+ </section>
+ <section class="panel" id="myparking">
+  <div class="card"><h3>My Parking</h3><div id="savedContent" class="empty">⌖<b>No saved parking spots yet</b>Select an available space on the map and save it here.</div></div>
+ </section>
+ <section class="panel" id="about">
+  <div class="card"><h3>About ParkT-Town</h3><p>ParkT-Town is a proposed smart-parking platform designed to make finding parking in downtown Tuscaloosa easier. The concept combines a digital parking map, camera-based space detection, estimated parking turnover, and parking-demand trends.</p><h3>How it could work</h3><ol><li>Cameras view designated parking spaces.</li><li>Computer vision detects whether each space is occupied.</li><li>Availability information is sent to a database.</li><li>The website displays open spaces and estimated trends.</li></ol><div class="notice"><b>Class prototype:</b> This website is an interactive concept demonstration. It is not connected to City of Tuscaloosa infrastructure, real cameras, or live parking availability. The parking layout and trend data are fictional examples.</div></div>
+ </section>
+ <div class="footer">ParkT-Town · Student concept prototype · Tuscaloosa, Alabama</div>
+</main>
+<script>
+const spaces=[
+ ...["A1","A2","A3","A4","A5","A6","A7","A8","A9","A10","A11","A12"].map((id,i)=>({id,lot:"North Parking Lot",open:[0,2,3,5,7,8,10][i]??false})),
+ ...["B1","B2","B3","B4","B5","B6","B7","B8","B9","B10","B11","B12"].map((id,i)=>({id,lot:"South Parking Lot",open:[0,1,4,5,6,8,11][i]??false}))
+];
+let selected="A3",duration="1–2 hours",saved=null;
+const $=id=>document.getElementById(id);
+function renderSpaces(){
+ const filter=$("filter").value,query=$("search").value.trim().toUpperCase();
+ ["lotA","lotB"].forEach((lot,index)=>{
+  $(lot).innerHTML="";
+  spaces.filter(s=>(index===0?s.id.startsWith("A"):s.id.startsWith("B"))&&(filter==="all"||(filter==="open"&&s.open)||(filter==="taken"&&!s.open))&&(!query||s.id.includes(query))).forEach(s=>{
+   const b=document.createElement("button");b.className="space "+(s.open?"open":"taken")+(s.id===selected?" selected":"");
+   b.innerHTML=`<span>▰</span><small>${s.id}</small>`;b.title=s.id+(s.open?" available":" occupied");b.onclick=()=>{selected=s.id;renderSpaces();renderSelected()};$(lot).appendChild(b);
+  });
+ });
+ $("openCount").textContent=spaces.filter(s=>s.open).length;
+ $("totalCount").textContent=spaces.length;
+}
+function renderSelected(){
+ const s=spaces.find(x=>x.id===selected);
+ $("selectedInfo").innerHTML=`<div class="status ${s.open?"open":"taken"}">● ${s.id} — ${s.open?"Available now":"Currently occupied"}</div><p class="muted">${s.lot} · Sample space</p>`;
+ $("estimate").textContent=s.open?"This space is currently available. Estimated availability is subject to change.":"Demo estimate: this occupied space may become available in approximately 20 minutes. Actual departure times can vary.";
+ $("saveSpot").disabled=!s.open;$("saveSpot").textContent=saved===selected?"Saved to My Parking": "Save this parking spot";
+}
+function renderSaved(){
+ $("savedContent").className=saved?"":"empty";
+ $("savedContent").innerHTML=saved?`<div class="selected-info"><div class="status open">● ${saved} — Saved spot</div><p class="muted">Downtown Tuscaloosa · ${spaces.find(s=>s.id===saved).lot}</p><button class="btn secondary" id="removeSaved">Remove saved spot</button></div>`:'⌖<b>No saved parking spots yet</b>Select an available space on the map and save it here.';
+ if($("removeSaved"))$("removeSaved").onclick=()=>{saved=null;renderSaved();renderSelected()};
+}
+function renderChart(){
+ const values=[34,44,59,72,84,91,95,89,79,65,51,37],labels=["8a","9a","10a","11a","12p","1p","2p","3p","4p","5p","6p","7p"];
+ $("chart").innerHTML="";
+ values.forEach((v,i)=>{const w=document.createElement("div");w.className="bar-wrap";w.innerHTML=`<div class="bar" style="height:${v}%"></div><span class="bar-label">${labels[i]}</span>`;$("chart").appendChild(w)});
+}
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("active",x===b));document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id===b.dataset.tab));});
+$("filter").onchange=renderSpaces;$("search").oninput=renderSpaces;
+$("durationChoices").querySelectorAll("button").forEach(b=>b.onclick=()=>{duration=b.dataset.duration;$("durationChoices").querySelectorAll("button").forEach(x=>x.classList.toggle("chosen",x===b));});
+$("saveSpot").onclick=()=>{saved=selected;renderSaved();renderSelected();};
+$("trendPeriod").onchange=()=>{const label=$("trendPeriod").value;$("chart").style.opacity=label==="Today"?"1":".72";};
+renderSpaces();renderSelected();renderChart();renderSaved();
+</script>
+</body>
+</html>
